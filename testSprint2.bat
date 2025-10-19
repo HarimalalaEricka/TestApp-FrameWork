@@ -7,7 +7,7 @@ echo ============================================
 REM === Définition des chemins ===
 set SRC=src
 set BIN=bin
-set LIB=lib
+set LIB=WEB-INF\lib
 set FRAMEWORK_JAR=%LIB%\framework.jar
 
 REM === Nettoyage de l'ancien dossier bin ===
@@ -19,7 +19,7 @@ mkdir %BIN%
 
 REM === Compilation des fichiers Java ===
 echo Compilation des classes...
-javac -d %BIN% -cp %FRAMEWORK_JAR% %SRC%\com\app\Main.java %SRC%\com\app\controllers\SiteController.java
+javac -d %BIN% -cp %FRAMEWORK_JAR% %SRC%\com\app\Main.java %SRC%\com\app\controllers\UserController.java
 
 if %errorlevel% neq 0 (
     echo.
@@ -35,7 +35,7 @@ echo        EXECUTION DU SCANNER DE CONTROLLER
 echo ============================================
 echo.
 
-java -cp %BIN%;%FRAMEWORK_JAR% com.app.MainScanner
+java -cp %BIN%;%FRAMEWORK_JAR% com.app.Main
 
 echo.
 echo ============================================
