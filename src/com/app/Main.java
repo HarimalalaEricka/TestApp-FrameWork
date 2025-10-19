@@ -1,10 +1,11 @@
 package com.app;
-import com.app.controllers.SiteController;
+import com.app.controllers.UserController;
 import java.lang.reflect.Method;
+import com.framework.annotation.*;
 
 public class Main {
     public static void main(String[] args) {
-        Class<SiteController> clazz = SiteController.class;
+        Class<UserController> clazz = UserController.class;
 
         System.out.println("Liste des URLs dans la classe " + clazz.getSimpleName() + " :");
         System.out.println("-------------------------------------------------------");
