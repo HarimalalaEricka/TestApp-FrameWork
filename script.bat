@@ -6,7 +6,7 @@ set TESTAPP_LIB=.\WEB-INF\lib
 set FRAMEWORK_PATH=..\Framework
 set FRAMEWORK_JAR=%FRAMEWORK_PATH%\lib\framework.jar
 
-set TOMCAT_HOME=C:\xampp\tomcat
+set TOMCAT_HOME=/opt/tomcat
 set WEBAPPS=%TOMCAT_HOME%\webapps
 set WAR_NAME=TestApp.war
 
