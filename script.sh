@@ -3,39 +3,43 @@
 # =====================================
 # Variables
 # =====================================
-TESTAPP_LIB="./WEB-INF/lib"
-FRAMEWORK_PATH="../Framework"
-FRAMEWORK_JAR="$FRAMEWORK_PATH/lib/framework.jar"
+PROJECT_DIR=$(pwd)                     # Répertoire courant TestApp
+WEB_CONTENT="$PROJECT_DIR/WebContent" # Dossier contenant les JSP et HTML
+WEB_INF="$PROJECT_DIR/WEB-INF"        # Dossier WEB-INF
+TESTAPP_LIB="$WEB_INF/lib"
+FRAMEWORK_JAR="/home/nam/Documents/FrameWork/lib/framework.jar"
 
 TOMCAT_HOME="/opt/tomcat"
 WEBAPPS="$TOMCAT_HOME/webapps"
 WAR_NAME="TestApp.war"
 
 # =====================================
-# Copier le JAR du framework dans TestApp
+# Vérifier que WEB-INF existe
 # =====================================
 mkdir -p "$TESTAPP_LIB"
 
+# =====================================
+# Copier le JAR du framework
+# =====================================
 cp -f "$FRAMEWORK_JAR" "$TESTAPP_LIB/"
 if [ $? -ne 0 ]; then
     echo "❌ Erreur lors de la copie du framework.jar!"
-    read -p "Appuyez sur Entrée pour quitter..."
     exit 1
 fi
-
 echo "✅ framework.jar copié dans TestApp/WEB-INF/lib avec succès"
 
 # =====================================
-# Créer le WAR
+# Créer le WAR correctement
 # =====================================
-if [ -f "$WAR_NAME" ]; then
-    rm -f "$WAR_NAME"
-fi
+rm -f "$WAR_NAME"
 
-jar cvf "$WAR_NAME" -C WebContent . -C . WEB-INF
+# Inclure WebContent et WEB-INF (avec web.xml)
+jar cvf "$WAR_NAME" \
+    -C "$WEB_CONTENT" . \
+    -C "$WEB_INF" .
+
 if [ $? -ne 0 ]; then
     echo "❌ Erreur lors de la création du WAR!"
-    read -p "Appuyez sur Entrée pour quitter..."
     exit 1
 fi
 
@@ -44,16 +48,8 @@ echo "✅ WAR créé avec succès : $WAR_NAME"
 # =====================================
 # Déployer dans Tomcat
 # =====================================
-if [ -f "$WEBAPPS/$WAR_NAME" ]; then
-    rm -f "$WEBAPPS/$WAR_NAME"
-fi
-
+rm -f "$WEBAPPS/$WAR_NAME"
 cp -f "$WAR_NAME" "$WEBAPPS/"
-if [ $? -ne 0 ]; then
-    echo "❌ Erreur lors de la copie du WAR dans Tomcat!"
-    read -p "Appuyez sur Entrée pour quitter..."
-    exit 1
-fi
 
 echo "✅ Application $WAR_NAME déployée dans Tomcat/webapps"
 
@@ -69,4 +65,3 @@ echo "====================================="
 echo "🚀 Déploiement terminé!"
 echo "URL: http://localhost:8080/TestApp"
 echo "====================================="
-read -p "Appuyez sur Entrée pour terminer..."
