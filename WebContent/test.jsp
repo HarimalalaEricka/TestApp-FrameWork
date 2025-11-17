@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Test Model View</p>
+    <h1>Test Model View</h1>
+    <p>Nom : ${nom}</p>
+    <p>Prenom : ${prenom}</p>
+    <p>Email : ${email}</p>
 </body>
 </html>
