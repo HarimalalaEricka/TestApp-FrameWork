@@ -2,6 +2,7 @@ package com.app.controllers;
 
 import com.framework.annotation.*;
 
+@Controller
 public class UserController {
 
     @HandleUrl("/nom")
@@ -17,5 +18,11 @@ public class UserController {
     @HandleUrl("/email")
     public void afficherContact() {
         System.out.println("jean@gmail.com");
+    }
+
+    @HandleUrl("/hello")
+    public String sayHello()
+    {
+        return "Hello toi!!";
     }
 }
