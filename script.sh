@@ -5,9 +5,9 @@
 # =====================================
 PROJECT_DIR=$(pwd)                     # Répertoire courant TestApp
 WEB_CONTENT="$PROJECT_DIR/WebContent" # Dossier contenant les JSP et HTML
-WEB_INF="$PROJECT_DIR/WEB-INF"        # Dossier WEB-INF
-TESTAPP_LIB="$WEB_INF/lib"
-FRAMEWORK_JAR="/home/nam/Documents/FrameWork/lib/framework.jar"
+WEB_INF="$PROJECT_DIR/WebContent/WEB-INF"        # Dossier WEB-INF
+LIB="$WEB_INF/lib"
+JAR_DIR="/home/nam/Documents/FrameWork/lib"
 
 TOMCAT_HOME="/opt/tomcat"
 WEBAPPS="$TOMCAT_HOME/webapps"
@@ -16,17 +16,34 @@ WAR_NAME="TestApp.war"
 # =====================================
 # Vérifier que WEB-INF existe
 # =====================================
-mkdir -p "$TESTAPP_LIB"
+mkdir -p "$LIB"
 
 # =====================================
 # Copier le JAR du framework
 # =====================================
-cp -f "$FRAMEWORK_JAR" "$TESTAPP_LIB/"
+# Copier tous les .jar de JAR_DIR dans WEB-INF/lib
+for jar in "$JAR_DIR"/*.jar; do
+    if [ -f "$jar" ]; then
+        cp -f "$jar" "$LIB/"
+        if [ $? -ne 0 ]; then
+            echo "❌ Erreur lors de la copie de $jar !"
+            exit 1
+        fi
+        echo "✅ $jar copié dans $LIB avec succès"
+    fi
+done
+
+
+# Créer WEB-INF/classes si inexistant
+mkdir -p "$WEB_INF/classes"
+
+# Compiler les classes Java
+javac -cp "$WEB_INF/lib/*" -d "$WEB_INF/classes" $(find ./src -name "*.java")
 if [ $? -ne 0 ]; then
-    echo "❌ Erreur lors de la copie du framework.jar!"
+    echo "❌ Erreur lors de la compilation des classes Java!"
     exit 1
 fi
-echo "✅ framework.jar copié dans TestApp/WEB-INF/lib avec succès"
+echo "✅ Classes compilées avec succès"
 
 # =====================================
 # Créer le WAR correctement
