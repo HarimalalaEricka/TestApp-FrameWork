@@ -37,4 +37,10 @@ public class UserController {
         view.addAttribute("email", "jeanrakoto@gmail.com");
         return view;
     }
+
+    @HandleUrl("/user/{id}")
+    public String get(Integer id)
+    {
+        return "Méthode get() appelée, id = " + id;
+    }
 }
