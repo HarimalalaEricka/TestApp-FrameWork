@@ -7,7 +7,7 @@ PROJECT_DIR=$(pwd)                     # Répertoire courant TestApp
 WEB_CONTENT="$PROJECT_DIR/WebContent" # Dossier contenant les JSP et HTML
 WEB_INF="$PROJECT_DIR/WebContent/WEB-INF"        # Dossier WEB-INF
 LIB="$WEB_INF/lib"
-JAR_DIR="/home/nam/Documents/FrameWork/lib"
+JAR_DIR="/home/nam/Documents/Reseau/Framework/Framework/Framework/lib"
 
 TOMCAT_HOME="/opt/tomcat"
 WEBAPPS="$TOMCAT_HOME/webapps"
@@ -38,7 +38,7 @@ done
 mkdir -p "$WEB_INF/classes"
 
 # Compiler les classes Java
-javac -cp "$WEB_INF/lib/*" -d "$WEB_INF/classes" $(find ./src -name "*.java")
+javac -parameters -cp "$WEB_INF/lib/*" -d "$WEB_INF/classes" $(find ./src -name "*.java")
 if [ $? -ne 0 ]; then
     echo "❌ Erreur lors de la compilation des classes Java!"
     exit 1
