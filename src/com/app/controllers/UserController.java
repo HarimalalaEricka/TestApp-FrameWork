@@ -2,6 +2,7 @@
 
     import com.framework.annotation.*;
     import com.framework.model.*;
+    import java.util.Map;
 
     @Controller
     public class UserController {
@@ -121,5 +122,36 @@
             model.addAttribute("query", query);
             model.addAttribute("page", pageNumber);
             return model;
+        }
+
+        // Méthode GET pour afficher le formulaire
+        @HandleGet("/test-form")
+        public ModelView showForm() {
+            ModelView mv = new ModelView();
+            mv.setView("test-form.jsp");
+            mv.addAttribute("titre", "Test Sprint 8 - Map<String, Object>");
+            return mv;
+        }
+        
+        // Méthode POST pour recevoir les données
+        @HandlePost("/test-map")
+        public ModelView testMap(Map<String, Object> data, String nom, int age, String ville) {
+            ModelView mv = new ModelView();
+            mv.setView("test-result.jsp");
+            
+            // Ajouter toutes les données à la vue
+            mv.addAttribute("mapData", data);
+            mv.addAttribute("nom", nom);
+            mv.addAttribute("age", age);
+            mv.addAttribute("ville", ville);
+            
+            // Afficher dans les logs aussi
+            System.out.println("=== SPRINT 8 - RÉSULTAT ===");
+            System.out.println("Map complète: " + data);
+            System.out.println("Nom extrait: " + nom);
+            System.out.println("Âge extrait: " + age);
+            System.out.println("Ville extraite: " + ville);
+            
+            return mv;
         }
     }

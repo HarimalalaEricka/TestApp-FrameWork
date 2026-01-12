@@ -7,7 +7,7 @@ PROJECT_DIR=$(pwd)                     # Répertoire courant TestApp
 WEB_CONTENT="$PROJECT_DIR/WebContent" # Dossier contenant les JSP et HTML
 WEB_INF="$PROJECT_DIR/WebContent/WEB-INF"        # Dossier WEB-INF
 LIB="$WEB_INF/lib"
-JAR_DIR="/home/nam/Documents/Reseau/Framework/Framework/Framework/lib"
+JAR_DIR="/home/nam/Documents/Reseau/Framework/Framework/lib"
 
 TOMCAT_HOME="/opt/tomcat"
 WEBAPPS="$TOMCAT_HOME/webapps"
