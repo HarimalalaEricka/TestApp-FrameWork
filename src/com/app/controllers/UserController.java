@@ -4,6 +4,12 @@ import com.framework.annotation.*;
 import com.framework.model.*;
 import com.app.models.*;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random; 
+import java.util.Arrays; 
 
 @Controller
 public class UserController {
@@ -206,5 +212,209 @@ public class UserController {
         mv.addAttribute("deptId", deptId);
         
         return mv;
+    }
+
+    // Sprint 9
+    // API 1: Test simple JSON
+    @HandleGet("/api/test")
+    @JsonResponse
+    public Map<String, Object> apiTest() {
+        System.out.println("SPRINT 9: /api/test appelé");
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "API JSON fonctionne !");
+        response.put("timestamp", System.currentTimeMillis());
+        response.put("framework", "Notre Framework Spring-like");
+        response.put("version", "Sprint 9");
+        
+        return response;
+    }
+    
+    // API 2: Liste d'utilisateurs en JSON
+    @HandleGet("/api/users")
+    @JsonResponse
+    public List<Map<String, Object>> apiUsers() {
+        System.out.println("SPRINT 9: /api/users appelé");
+        
+        List<Map<String, Object>> users = new ArrayList<>();
+        
+        // Utilisateur 1
+        Map<String, Object> user1 = new HashMap<>();
+        user1.put("id", 1);
+        user1.put("name", "Jean Rakoto");
+        user1.put("email", "jean@example.com");
+        user1.put("age", 30);
+        user1.put("active", true);
+        users.add(user1);
+        
+        // Utilisateur 2
+        Map<String, Object> user2 = new HashMap<>();
+        user2.put("id", 2);
+        user2.put("name", "Marie Rasoa");
+        user2.put("email", "marie@example.com");
+        user2.put("age", 25);
+        user2.put("active", true);
+        users.add(user2);
+        
+        // Utilisateur 3
+        Map<String, Object> user3 = new HashMap<>();
+        user3.put("id", 3);
+        user3.put("name", "Paul Randria");
+        user3.put("email", "paul@example.com");
+        user3.put("age", 35);
+        user3.put("active", false);
+        users.add(user3);
+        
+        return users;
+    }
+    
+    // API 3: User par ID (avec paramètre d'URL)
+    @HandleGet("/api/users/{id}")
+    @JsonResponse
+    public Map<String, Object> apiUserById(@RequestParam("id") int id) {
+        System.out.println("SPRINT 9: /api/users/" + id + " appelé");
+        
+        Map<String, Object> user = new HashMap<>();
+        user.put("id", id);
+        user.put("name", "Utilisateur " + id);
+        user.put("email", "user" + id + "@example.com");
+        user.put("age", 20 + id);
+        user.put("createdAt", "2024-01-15");
+        user.put("roles", new String[]{"USER", "MEMBER"});
+        
+        return user;
+    }
+    
+    // API 4: Recherche avec paramètres GET
+    @HandleGet("/api/search")
+    @JsonResponse
+    public Map<String, Object> apiSearch(@RequestParam("q") String query, 
+                                        @RequestParam(value = "page", required = false) Integer page) {
+        System.out.println("SPRINT 9: /api/search?q=" + query + "&page=" + page);
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("query", query);
+        result.put("page", page != null ? page : 1);
+        result.put("totalResults", 42);
+        result.put("results", Arrays.asList(
+            "Résultat 1 pour: " + query,
+            "Résultat 2 pour: " + query,
+            "Résultat 3 pour: " + query
+        ));
+        
+        return result;
+    }
+    
+    // API 5: Création d'utilisateur (POST avec données JSON attendues)
+    @HandleGet("/api/users/create")
+    @JsonResponse
+    public Map<String, Object> apiCreateUser(Map<String, Object> data) {
+        System.out.println("SPRINT 9: /api/users/create appelé");
+        System.out.println("Données reçues: " + data);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "created");
+        response.put("id", 100 + new Random().nextInt(900));
+        response.put("message", "Utilisateur créé avec succès");
+        response.put("data", data);
+        response.put("timestamp", new Date());
+        
+        return response;
+    }
+    
+    // API 6: Test avec objet Java (combinaison Sprint 8bis + 9)
+    @HandleGet("/api/employee")
+    @JsonResponse
+    public Employee apiEmployee() {
+        System.out.println("SPRINT 9: /api/employee appelé");
+        
+        Employee emp = new Employee();
+        emp.setName("John API");
+        emp.setPosition("Développeur");
+        emp.setSalary(50000.0);
+        
+        return emp;
+    }
+    
+    // API 7: Liste d'objets Java
+    @HandleGet("/api/employees")
+    @JsonResponse
+    public List<Employee> apiEmployees() {
+        System.out.println("SPRINT 9: /api/employees appelé");
+        
+        List<Employee> employees = new ArrayList<>();
+        
+        Employee emp1 = new Employee();
+        emp1.setName("Alice");
+        emp1.setPosition("Manager");
+        emp1.setSalary(75000.0);
+        employees.add(emp1);
+        
+        Employee emp2 = new Employee();
+        emp2.setName("Bob");
+        emp2.setPosition("Développeur");
+        emp2.setSalary(60000.0);
+        employees.add(emp2);
+        
+        Employee emp3 = new Employee();
+        emp3.setName("Charlie");
+        emp3.setPosition("Designer");
+        emp3.setSalary(55000.0);
+        employees.add(emp3);
+        
+        return employees;
+    }
+    
+    // API 8: Test d'erreur
+    @HandleGet("/api/error")
+    @JsonResponse
+    public Map<String, Object> apiError() {
+        System.out.println("SPRINT 9: /api/error appelé");
+        
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", "error");
+        error.put("code", 500);
+        error.put("message", "Erreur simulée pour le test");
+        error.put("details", "Ceci est une erreur de test pour vérifier le format JSON");
+        
+        return error;
+    }
+    
+    // API 9: Données complexes (mixte)
+    @HandleGet("/api/complex")
+    @JsonResponse
+    public Map<String, Object> apiComplex() {
+        System.out.println("SPRINT 9: /api/complex appelé");
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        // Types simples
+        response.put("string", "Hello JSON");
+        response.put("number", 123.45);
+        response.put("boolean", true);
+        response.put("nullValue", null);
+        
+        // Tableau
+        response.put("array", new int[]{1, 2, 3, 4, 5});
+        
+        // Liste
+        List<String> fruits = Arrays.asList("Pomme", "Banane", "Orange");
+        response.put("fruits", fruits);
+        
+        // Map imbriquée
+        Map<String, Object> nested = new HashMap<>();
+        nested.put("nestedKey", "nestedValue");
+        nested.put("count", 99);
+        response.put("nested", nested);
+        
+        // Objet Java
+        User user = new User();
+        user.setName("Test User");
+        user.setAge(28);
+        user.setEmail("test@json.com");
+        response.put("userObject", user);
+        
+        return response;
     }
 }
