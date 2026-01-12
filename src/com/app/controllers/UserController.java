@@ -38,6 +38,14 @@
             return view;
         }
 
+        @HandleUrl("/testform")
+        public ModelView testform()
+        {
+            ModelView view = new ModelView();
+            view.setView("testform.jsp");
+            return view;
+        }
+
         @HandleUrl("/user/{id}")
         public String get(Integer id)
         {
@@ -73,5 +81,45 @@
                         @RequestParam("price") double price,
                         @RequestParam("active") boolean isActive) {
             return String.format("num=%d, price=%.2f, active=%b", num, price, isActive);
+        }
+
+        // GET: Afficher le formulaire
+        @HandleGet("/form")
+        public ModelView form() {
+            ModelView model = new ModelView();
+            model.setView("form.jsp");
+            model.addAttribute("titre", "Formulaire d'inscription");
+            return model;
+        }
+        
+        // POST: Traiter le formulaire
+        @HandlePost("/form")
+        public ModelView saveUser(String id, String nom) {
+            ModelView model = new ModelView();
+            model.setView("result.jsp");
+            model.addAttribute("message", "Utilisateur sauvegardé avec succès!");
+            model.addAttribute("nom", nom);
+            model.addAttribute("id", id);
+            return model;
+        }
+        
+        // Exemple avec paramètre d'URL
+        @HandleGet("/user/{id}")
+        public ModelView getUser(int id) {
+            ModelView model = new ModelView();
+            model.setView("../user-detail.jsp");
+            model.addAttribute("id", id);
+            return model;
+        }
+        
+        // Exemple avec @RequestParam
+        @HandleGet("/search")
+        public ModelView search(@RequestParam("q") String query, 
+                            @RequestParam("page") int pageNumber) {
+            ModelView model = new ModelView();
+            model.setView("search-results.jsp");
+            model.addAttribute("query", query);
+            model.addAttribute("page", pageNumber);
+            return model;
         }
     }
