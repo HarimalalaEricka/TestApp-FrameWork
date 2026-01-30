@@ -46,6 +46,14 @@ fi
 echo "✅ Classes compilées avec succès"
 
 # =====================================
+# AJOUT: Copier auth.properties si présent
+# =====================================
+if [ -f "auth.properties" ]; then
+    cp -f "auth.properties" "$WEB_INF/classes/"
+    echo "✅ auth.properties copié dans WEB-INF/classes/"
+fi
+
+# =====================================
 # Créer le WAR correctement
 # =====================================
 rm -f "$WAR_NAME"
